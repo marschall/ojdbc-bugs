@@ -27,7 +27,7 @@ class StringLengthTests {
     String output;
     try (Connection connection = this.dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("""
-            SELECT CAST(? AS VARCHAR2(10))
+            SELECT CAST(? AS VARCHAR2(10 char))
               FROM dual
             """)) {
       preparedStatement.setString(1, input);
@@ -47,7 +47,7 @@ class StringLengthTests {
     String output;
     try (Connection connection = this.dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("""
-            SELECT CAST(? AS VARCHAR2(10))
+            SELECT CAST(? AS VARCHAR2(10 char))
               FROM dual
             """)) {
       preparedStatement.setString(1, input);

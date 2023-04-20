@@ -28,24 +28,31 @@ class LocalDateBindingTests {
     LocalDate todayJud = LocalDate.now();
     Date todayJsd = Date.valueOf(todayJud);
     String result;
+    Timestamp readbackDate;
+    LocalDate readbakckLocalDate;
     try (Connection connection = this.dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("""
             SELECT (CASE WHEN (? = ?) THEN
                          'eq'
                     ELSE
                          'ne'
-                     END) AS r
+                     END) AS r, ? AS d, ? AS ld
               FROM dual
             """)) {
-      preparedStatement.setTimestamp(1, new Timestamp(todayJsd.getTime()));
+      preparedStatement.setDate(1, todayJsd);
       preparedStatement.setObject(2, todayJud);
+
+      preparedStatement.setDate(3, todayJsd);
+      preparedStatement.setObject(4, todayJud);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         assertTrue(resultSet.next());
         result = resultSet.getString(1);
+        readbackDate = resultSet.getTimestamp(2);
+        readbakckLocalDate = resultSet.getObject(3, LocalDate.class);
         assertFalse(resultSet.next());
       }
     }
-    assertEquals("eq", result);
+    assertEquals("eq", result, () -> "sql.date: " + readbackDate + " util.date: " + readbakckLocalDate);
   }
 
 }

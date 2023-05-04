@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @OracleTest
-class LocalDateBindingTests {
+public class LocalDateBindingTests {
 
   @Autowired
   private DataSource dataSource;

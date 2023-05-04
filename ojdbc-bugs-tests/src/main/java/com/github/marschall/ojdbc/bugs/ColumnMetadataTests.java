@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import oracle.jdbc.OracleConnection;
 
 @OracleTest
-class ColumnMetadataTests {
+public class ColumnMetadataTests {
 
   @Autowired
   private DataSource dataSource;
